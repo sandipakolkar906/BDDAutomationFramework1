@@ -71,6 +71,50 @@ public class EmpTimeSheet extends Base {
 		Assert.assertEquals(expectedBookedTimeForalldays, actualSumofallBookedDays);
 	}
 
+	// Add Project Step Definations
+
+	@Given("^Navigate to Time Page after Log in and naviagte to Projects Page$")
+	public void navigate_to_Time_Page_after_Log_in_and_naviagte_to_Projects_Page() throws Throwable {
+		scenario.write("Starting orange HRM log in page ");
+		driver = initializeWebDriver();
+		scenario.embed(CaptureScreenshot.captureImage(driver), "image/png");
+		objloginPage = new LoginPage(driver);
+		scenario.write("Logging in to the OrangeHRM Applciation ");
+		objloginPage.logintoApplication(ReadProperties.getAppUserName(), ReadProperties.getAppPassword(), scenario);
+		scenario.embed(CaptureScreenshot.captureImage(driver), "image/png");
+		objMyTimehseetPage = new MyTimehseetPage(driver);
+		objMyTimehseetPage.navigateToTimePage(scenario);
+		scenario.write("Navigate to Add Project Screen");
+		objMyTimehseetPage.navigateToProjectsPage(scenario);
+		scenario.embed(CaptureScreenshot.captureImage(driver), "image/png");
+
+	}
+
+	@When("^I add new project with name \"([^\"]*)\" existing customer with Customer name as \"([^\"]*)\"$")
+	public void i_add_new_project_with_name_existing_customer_with_Customer_name_as(String projectName,
+			String customerName) throws Throwable {
+
+		scenario.write("Adding new Project");
+		objMyTimehseetPage.addNewProject(customerName, projectName, scenario);
+		scenario.embed(CaptureScreenshot.captureImage(driver), "image/png");
+	}
+
+	@Then("^I search newly added project by \"([^\"]*)\"$")
+	public void i_search_newly_added_project_by(String projectName) throws Throwable {
+		scenario.write("Searching new Project");
+		scenario.embed(CaptureScreenshot.captureImage(driver), "image/png");
+		Assert.assertEquals(projectName, objMyTimehseetPage.searchProjectbyProjectName(projectName, scenario));
+		scenario.embed(CaptureScreenshot.captureImage(driver), "image/png");
+
+	}
+
+	@Then("^I Delete the searched Project$")
+	public void i_Delete_the_searched_Project() throws Throwable {
+		scenario.write("Deleting new Project");
+		objMyTimehseetPage.deleteProject(scenario);
+		scenario.embed(CaptureScreenshot.captureImage(driver), "image/png");
+	}
+
 	@After
 	public void closeApplication(Scenario scenario) {
 
