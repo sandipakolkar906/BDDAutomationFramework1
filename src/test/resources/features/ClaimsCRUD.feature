@@ -1,4 +1,4 @@
-Feature: Claims CRUD operations
+Feature: Claims CRUD operations for recommit
 
   @DryRunClaims
   Scenario: I am able to add, edit and Delete  Expenses and verify the total
