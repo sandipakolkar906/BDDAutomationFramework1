@@ -69,13 +69,87 @@ public class ClaimsPage {
 	@FindBy(xpath = "//button[text()=' Yes, Delete ']")
 	WebElement deleteexpeseConfirmButton;
 
+	// Repo forevent CRUD
+
+	@FindBy(xpath = "//span[text()='Configuration ']")
+	WebElement configurationMenu;
+
+	@FindBy(xpath = "//a[text()='Events']")
+	WebElement eventsOption;
+
+	@FindBy(xpath = "//button[text()=' Add ']")
+	WebElement addEventButton;
+
+	@FindBy(xpath = "//label[text()='Event Name']/following::input[1]")
+	WebElement eventNameField;
+
+	@FindBy(xpath = "//button[text()=' Save ']")
+	WebElement saveButton;
+
+	@FindBy(xpath = "//button[text()=' Search ']")
+	WebElement searchEventButton;
+
+	@FindBy(xpath = "//div[@class='oxd-table-card']/descendant::div[1]/child::div[2]")
+	WebElement cellvalueeventName;
+
+	@FindBy(xpath = "//div[@class='oxd-table-card']/descendant::div[1]/child::div/following::i[@class='oxd-icon bi-pencil-fill']")
+	WebElement editEventButton;
+
+	@FindBy(xpath = "//div[@class='oxd-table-card']/descendant::div[1]/child::div/following::i[@class='oxd-icon bi-trash']")
+	WebElement deletebutton;
+
+	@FindBy(xpath = "//button[text()=' Yes, Delete ']")
+	WebElement deleteConfirmationButton;
+
 	public ClaimsPage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 
 	}
 
-	// page operation methods
+	// page operation methods- Event
+
+	public void navigateToConfigurationMenu(Scenario scenario) {
+
+		ElementActions.clickElement(driver, configurationMenu, scenario);
+	}
+
+	public void navigateToEvents(Scenario scenario) {
+
+		ElementActions.clickElement(driver, eventsOption, scenario);
+		WaitMethods.staticWait(5000);
+	}
+
+	public void addEvent(Scenario scenario, String eventName) {
+
+		ElementActions.clickElement(driver, addEventButton, scenario);
+		ElementActions.sendKeys(driver, eventNameField, scenario, eventName);
+
+		ElementActions.clickElement(driver, saveButton, scenario);
+		WaitMethods.staticWait(5000);
+	}
+
+	public String searchEvent(Scenario scenario, String eventNameToSearch) {
+		WaitMethods.staticWait(2000);
+		ElementActions.sendKeys(driver, eventNameField, scenario, eventNameToSearch);
+		WaitMethods.staticWait(2000);
+		ElementActions.clickElement(driver, searchEventButton, scenario);
+		WaitMethods.staticWait(2000);
+		return ElementActions.getText(driver, cellvalueeventName, scenario);
+	}
+
+	public void editEvent(Scenario scenario, String updatedEventName) {
+		WaitMethods.staticWait(2000);
+		ElementActions.clickElement(driver, editEventButton, scenario);
+		ElementActions.clickElement(driver, saveButton, scenario);
+
+	}
+
+	public void deleteEvent(Scenario scenario) {
+		ElementActions.clickElement(driver, deletebutton, scenario);
+		ElementActions.clickElement(driver, deleteConfirmationButton, scenario);
+	}
+	// page operation methods- claims
 
 	public void navigatetoClaimsPage(Scenario scenario) {
 		ElementActions.clickElement(driver, claimPageLink, scenario);
